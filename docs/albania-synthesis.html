@@ -109,10 +109,10 @@
     </div>
     <div id="state-legend" class="legend">
         <h4>Site Type</h4>
-        <div><span style="background-color: #ffce01"></span>OpenStreetMap</div>
-        <div><span style="background-color: #eb1e1e"></span>Detected</div>
+        <div><span style="background-color: #eb1e1e"></span>Detected Municipal</div>
         <div><span style="background-color: #00a5eb"></span>Detected Industrial</div>
         <div><span style="background-color: #9c2dc1"></span>Detected Uncertain</div>
+        <div><span style="background-color: #ffce01"></span>OpenStreetMap</div>
         <div><span style="background-color: #26d394"></span>Gov - Dump</div>
         <div><span style="background-color: #cecece"></span>Gov - Legal</div>
         <div><span style="background-color: #88eef5"></span>Gov - Rehabilitation</div>
@@ -124,8 +124,8 @@
         mapboxgl.accessToken = 'pk.eyJ1IjoiZWFydGhyaXNlIiwiYSI6ImNqeDExNmtrZzAwM2E0OW16eHZ1dzg1eWEifQ.8LTFXyY-n7OsZOoWN9ONPQ'
         const map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/satellite-v9',
-            center: [41.141, 20.054],
+            style: 'mapbox://styles/mapbox/satellite-streets-v11',
+            center: [20.054, 41.141],
             zoom: 7.5,
             projection: {
                 name: 'naturalEarth',
@@ -168,59 +168,6 @@
                         }
                     }
                 });
-            map.addSource('detected-sites', {
-                type: 'geojson',
-                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_confirmed.geojson'
-            });
-            map.addLayer(
-                {
-                    'id': 'detected',
-                    'type': 'circle',
-                    'source': 'detected-sites',
-                    'paint': {
-                        'circle-color': '#eb1e1e',
-                        'circle-opacity': 1.0,
-                        'circle-radius': {
-                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
-                        }
-                    }
-                });
-
-            map.addSource('detected-industrial', {
-                type: 'geojson',
-                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_industrial_metadata.geojson'
-            });
-            map.addLayer(
-                {
-                    'id': 'industrial',
-                    'type': 'circle',
-                    'source': 'detected-industrial',
-                    'paint': {
-                        'circle-color': '#00a5eb',
-                        'circle-opacity': 1.0,
-                        'circle-radius': {
-                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
-                        }
-                    }
-                });
-            
-            map.addSource('detected-uncertain', {
-                type: 'geojson',
-                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_uncertain_metadata.geojson'
-            });
-            map.addLayer(
-                {
-                    'id': 'uncertain',
-                    'type': 'circle',
-                    'source': 'detected-uncertain',
-                    'paint': {
-                        'circle-color': '#9c2dc1',
-                        'circle-opacity': 1.0,
-                        'circle-radius': {
-                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
-                        }
-                    }
-                });
 
             map.addSource('gov-dump', {
                 type: 'geojson',
@@ -257,7 +204,7 @@
                         }
                     }
                 });
-            
+
             map.addSource('gov-rehab', {
                 type: 'geojson',
                 data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/rehabilitation.geojson'
@@ -275,7 +222,7 @@
                         }
                     }
                 });
-            
+
             map.addSource('gov-good', {
                 type: 'geojson',
                 data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/no-intervention-needed.geojson'
@@ -287,6 +234,60 @@
                     'source': 'gov-good',
                     'paint': {
                         'circle-color': '#f588e3',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+
+            map.addSource('detected-sites', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_confirmed.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'detected',
+                    'type': 'circle',
+                    'source': 'detected-sites',
+                    'paint': {
+                        'circle-color': '#eb1e1e',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+
+            map.addSource('detected-industrial', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_industrial_metadata.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'industrial',
+                    'type': 'circle',
+                    'source': 'detected-industrial',
+                    'paint': {
+                        'circle-color': '#00a5eb',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+
+            map.addSource('detected-uncertain', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_uncertain_metadata.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'uncertain',
+                    'type': 'circle',
+                    'source': 'detected-uncertain',
+                    'paint': {
+                        'circle-color': '#9c2dc1',
                         'circle-opacity': 1.0,
                         'circle-radius': {
                             stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
@@ -313,11 +314,11 @@
             });
         });
 
-        
+
 
         var satLayerIds = {
             'Higher resolution': 'mapbox-satellite',
-            'More recent': 'maptiler-layer'
+            'More recent (Sentinel-2)': 'maptiler-layer'
         };
         var satQualities = Object.keys(satLayerIds);
 
