@@ -111,6 +111,12 @@
         <h4>Site Type</h4>
         <div><span style="background-color: #ffce01"></span>OpenStreetMap</div>
         <div><span style="background-color: #eb1e1e"></span>Detected</div>
+        <div><span style="background-color: #00a5eb"></span>Detected Industrial</div>
+        <div><span style="background-color: #9c2dc1"></span>Detected Uncertain</div>
+        <div><span style="background-color: #26d394"></span>Gov - Dump</div>
+        <div><span style="background-color: #cecece"></span>Gov - Legal</div>
+        <div><span style="background-color: #88eef5"></span>Gov - Rehabilitation</div>
+        <div><span style="background-color: #f588e3"></span>Gov - Good Condition</div>
     </div>
     <script>
 
@@ -123,7 +129,7 @@
             zoom: 7.5,
             projection: {
                 name: 'naturalEarth',
-                center: [183, 40],
+                center: [180, 40],
                 parallels: [30, 30]
             },
             hash: true
@@ -162,7 +168,7 @@
                         }
                     }
                 });
-                map.addSource('detected-sites', {
+            map.addSource('detected-sites', {
                 type: 'geojson',
                 data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_confirmed.geojson'
             });
@@ -180,6 +186,123 @@
                     }
                 });
 
+            map.addSource('detected-industrial', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_industrial_metadata.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'industrial',
+                    'type': 'circle',
+                    'source': 'detected-industrial',
+                    'paint': {
+                        'circle-color': '#00a5eb',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+            
+            map.addSource('detected-uncertain', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/albania_uncertain_metadata.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'uncertain',
+                    'type': 'circle',
+                    'source': 'detected-uncertain',
+                    'paint': {
+                        'circle-color': '#9c2dc1',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+
+            map.addSource('gov-dump', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/dump-sites.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'dump',
+                    'type': 'circle',
+                    'source': 'gov-dump',
+                    'paint': {
+                        'circle-color': '#26d394',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+
+            map.addSource('gov-legal', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/legal-existing.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'legal',
+                    'type': 'circle',
+                    'source': 'gov-legal',
+                    'paint': {
+                        'circle-color': '#cecece',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+            
+            map.addSource('gov-rehab', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/rehabilitation.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'rehab',
+                    'type': 'circle',
+                    'source': 'gov-rehab',
+                    'paint': {
+                        'circle-color': '#88eef5',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+            
+            map.addSource('gov-good', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/earthrise-media/albania-waste/main/data/no-intervention-needed.geojson'
+            });
+            map.addLayer(
+                {
+                    'id': 'good',
+                    'type': 'circle',
+                    'source': 'gov-good',
+                    'paint': {
+                        'circle-color': '#f588e3',
+                        'circle-opacity': 1.0,
+                        'circle-radius': {
+                            stops: [[2, 1.25], [8, 3], [11, 5], [16, 20]]
+                        }
+                    }
+                });
+
+            map.on('click', function (e) {
+                var coordinates = e.lngLat;
+                navigator.clipboard.writeText(Math.round(coordinates.lat * 1000) / 1000 + ", " + Math.round(coordinates.lng * 1000) / 1000);
+                new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(Math.round(coordinates.lat * 1000) / 1000 + ", " + Math.round(coordinates.lng * 1000) / 1000)
+                    .addTo(map);
+            });
+
             map.on('click', function (e) {
                 var coordinates = e.lngLat;
                 navigator.clipboard.writeText(Math.round(coordinates.lat * 1000) / 1000 + ", " + Math.round(coordinates.lng * 1000) / 1000);
@@ -189,6 +312,8 @@
                     .addTo(map);
             });
         });
+
+        
 
         var satLayerIds = {
             'Higher resolution': 'mapbox-satellite',
