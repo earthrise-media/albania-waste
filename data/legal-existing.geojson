@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "legal-existing",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 20.051352745432894, 41.083899885071673 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 19.759579281858407, 41.297095772851662 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 19.564380972204162, 41.956344647687388 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 20.019563583492641, 39.963690021877085 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 20.681801044933419, 40.720625535763006 ] } }
+]
+}
